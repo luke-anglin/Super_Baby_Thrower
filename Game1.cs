@@ -51,6 +51,10 @@ namespace Super_Baby_Thrower {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             // Load font 
             font = Content.Load<SpriteFont>("Font");
+            var arrow = Content.Load<Texture2D>("RedArrow");
+            Thrower.Arrow = new Sprite(arrow) {
+                Position = new Vector2(10, 40)
+            };
 
             // Tiled Variables
             map1Map = new TiledMap(Content.RootDirectory + "/map1.tmx");
@@ -187,7 +191,6 @@ namespace Super_Baby_Thrower {
                 //else if (ks.IsKeyDown(Keys.D2) || ks.IsKeyDown(Keys.NumPad2))
                 //    map2 = true;
             }
-
             thrower.Update(gameTime, sprites); // gets movement input
 
             base.Update(gameTime);

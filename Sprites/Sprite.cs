@@ -26,7 +26,8 @@ namespace Super_Baby_Thrower.Sprites
         public int Height { get; }
         public int Width { get; }
         public string id { get; set; }
-        public bool GravityApplies { get; set; } = true; 
+        public bool GravityApplies { get; set; } = true;
+        public float Scale { get; set; } = 1.0f; 
         public Rectangle SpriteRectangle
         {
             get
@@ -70,7 +71,6 @@ namespace Super_Baby_Thrower.Sprites
             Width = spritesheetFrame.Width;
         }
 
-        // Issue is we're giving the entire spritesheet width not a single frame of spritesheet width 
         private void SetRectangleTexture(GraphicsDevice graphicsDevice, Texture2D texture)
         {
             var height = isSpritesheet ? spritesheetFrame.Height : texture.Height;
@@ -107,19 +107,21 @@ namespace Super_Baby_Thrower.Sprites
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (!isSpritesheet)
-                spriteBatch.Draw(_texture, Position, Color.White);
+            if (!isSpritesheet) {
+                if (Scale == 1.0f)
+                    spriteBatch.Draw(_texture, Position, Color.White);
+                else
+                    spriteBatch.Draw(_texture, Position, null, Color.White, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0);
+            }
+        
             else
                 spriteBatch.Draw(_texture, Position, spritesheetFrame, Color.White);
-
             if (ShowRectangle)
             {
                 if (_rectangleTexture != null)
                     spriteBatch.Draw(_rectangleTexture, Position, Color.Red);
-
             }
         }
-
         #region Collision
         public bool IsTouchingLeft(Sprite sprite)
         {

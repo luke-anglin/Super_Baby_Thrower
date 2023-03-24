@@ -11,8 +11,6 @@ namespace Super_Baby_Thrower.Handlers
 {
     public class PhysicsHandler
     {
-        // Handles all component physics
-
         public List<Sprite> Sprites { get; set; }
 
 
@@ -26,7 +24,6 @@ namespace Super_Baby_Thrower.Handlers
         
             ApplyForces();
             HandleCollisions();
-            // Zero  out
             foreach (var sprite in Sprites)
             {
                 if (sprite.GravityApplies)
@@ -46,32 +43,7 @@ namespace Super_Baby_Thrower.Handlers
                 {
                     if (sprite == s)
                         continue;
-                    // attack
-                    if (s is Thrower && ((Thrower)s).Attack)
-                    {
-                        if (((Thrower)s).Flip == SpriteEffects.FlipHorizontally)
-                        {
-                            var rect = new Rectangle((int)s.Position.X - 120, (int)s.Position.Y - 20, 120, s.Height + 20);
-                            if (rect.Intersects(sprite.SpriteRectangle))
-                            {
-                                sprite.Speed.X -= 10f;
-                                sprite.Position.X += InBoundsX(sprite) ? sprite.Speed.X : 0;
 
-                            }
-                        }
-                        else
-                        {
-                            var rect = new Rectangle((int)s.Position.X, (int)s.Position.Y - 20, 120, s.Height + 20);
-                            if (rect.Intersects(sprite.SpriteRectangle))
-                            {
-                                sprite.Speed.X += 10f;
-                                sprite.Position.X += InBoundsX(sprite) ? sprite.Speed.X : 0;
-                            }
-                        }
-                        
-                    } 
-
-                  
                     if (sprite.Solid)
                     {
                         if ((s.Speed.X > 0 && s.IsTouchingLeft(sprite)) ||
@@ -108,16 +80,6 @@ namespace Super_Baby_Thrower.Handlers
                             {
                                 sprite.Position.Y += sprite.Speed.Y;
                             }
-                        }
-                    }
-                    else if (sprite.Collectible && s is Thrower)
-                    {
-                        if ((s.Speed.X > 0 && s.IsTouchingLeft(sprite)) ||
-                            (s.Speed.X < 0 && s.IsTouchingRight(sprite)) || (s.Speed.Y > 0 && s.IsTouchingTop(sprite)) ||
-                            (s.Speed.Y < 0 && s.IsTouchingBottom(sprite)))
-                        {
-                            ((Thrower)s).Counter += 1;
-                            collected.Add(sprite);
                         }
                     }
                 }
